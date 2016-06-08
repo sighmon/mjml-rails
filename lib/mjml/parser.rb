@@ -75,7 +75,11 @@ module Mjml
       #
       # @return [String]
       def mjml_bin
-        `/usr/bin/which mjml`.chomp
+        global_bin_path = '/usr/bin/which mjml'.chomp
+        local_bin_path  = File.join(Rails.root, 'node_modules', '.bin', 'mjml')
+      
+        global_bin_path unless File.exist?(local_bin_path)
+        local_bin_path
       end
   end
 end
