@@ -9,7 +9,7 @@ module Mjml
 
   @@template_language = :erb
   @@raise_render_exception = false
-  @@mjml_binary_version_supported = "4.1."
+  @@mjml_binary_version_supported = "4.2."
   @@mjml_binary_error_string = "Couldn't find the MJML #{Mjml.mjml_binary_version_supported} binary.. have you run $ npm install mjml?"
 
   def self.check_version(bin)
