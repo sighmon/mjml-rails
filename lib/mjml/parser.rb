@@ -23,8 +23,8 @@ module Mjml
         file # return tempfile from block so #unlink works later
       end
       run(in_tmp_file.path, Mjml.beautify, Mjml.minify)
-    rescue
-      raise if Mjml.raise_render_exception
+    rescue => e
+      raise e if Mjml.raise_render_exception
       ""
     ensure
       in_tmp_file.unlink
