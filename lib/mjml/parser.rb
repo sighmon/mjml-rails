@@ -36,8 +36,12 @@ module Mjml
     def run(in_tmp_file, beautify=true, minify=false)
       Tempfile.create(["out", ".html"]) do |out_tmp_file|
         command = "#{mjml_bin} -r #{in_tmp_file} -o #{out_tmp_file.path} --config.beautify #{beautify} --config.minify #{minify}"
-        Open3.popen3(command) do |_, _, stderr, _|
-          raise ParseError.new(stderr.read.chomp) unless stderr.eof?
+        Open3.popen3(command) do |_, _, stderr, wait_thr|
+          if !stderr.eof?
+            raise ParseError.new(stderr.read.chomp)
+          elsif !wait_thr.value.success?
+            raise ParseError.new("mjml exited non-zero exit status: #{wait_thr.value.exitstatus}")
+          end
         end
         out_tmp_file.read
       end
