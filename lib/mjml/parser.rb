@@ -43,7 +43,9 @@ module Mjml
             raise ParseError.new("mjml exited non-zero exit status: #{wait_thr.value.exitstatus}")
           end
         end
-        out_tmp_file.read
+        result = out_tmp_file.read
+        raise ParseError.new('mjml returned empty string') if result.empty?
+        result
       end
     end
 
