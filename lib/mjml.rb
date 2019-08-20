@@ -22,14 +22,14 @@ module Mjml
   end
 
   def self.discover_mjml_bin
-    # Check for a global install of MJML binary
-    mjml_bin = 'mjml'
-    return mjml_bin if check_version(mjml_bin)
-
     # Check for a local install of MJML binary
     installer_path = (`npm bin` || `yarn bin`).chomp
     mjml_bin = File.join(installer_path, 'mjml')
     return mjml_bin if check_version(mjml_bin)
+
+    # Check for a global install of MJML binary
+    mjml_bin = 'mjml'
+    return `which #{mjml_bin}`.chomp if check_version(mjml_bin)
 
     puts Mjml.mjml_binary_error_string
     nil
