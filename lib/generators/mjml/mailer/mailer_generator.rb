@@ -20,7 +20,7 @@ module Mjml
       end
 
       def view_handler
-        Mjml.template_language
+        Mjml.configuration.template_language
       end
 
       def filename_with_extensions(name, file_format = format)

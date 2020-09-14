@@ -10,7 +10,7 @@ module Mjml
     #
     # @param input [String] The string to transform in html
     def initialize input
-      raise Mjml.mjml_binary_error_string unless mjml_bin
+      raise Mjml.configuration.mjml_binary_error_string unless mjml_bin
       @input = input
     end
 
@@ -22,9 +22,9 @@ module Mjml
         file.write(input)
         file # return tempfile from block so #unlink works later
       end
-      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level)
+      run(in_tmp_file.path, Mjml.configuration.beautify, Mjml.configuration.minify, Mjml.configuration.validation_level)
     rescue
-      raise if Mjml.raise_render_exception
+      raise if Mjml.configuration.raise_render_exception
       ""
     ensure
       in_tmp_file.unlink

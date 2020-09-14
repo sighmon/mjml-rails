@@ -2,23 +2,14 @@ require "rails/version"
 require "action_view"
 require "action_view/template"
 require "mjml/mjmltemplate"
+require "mjml/configuration"
 require "mjml/railtie"
 require "rubygems"
 require "open3"
 
 module Mjml
-  mattr_accessor :template_language, :raise_render_exception, :mjml_binary_version_supported, :mjml_binary_error_string, :beautify, :minify, :validation_level
-
-  @@template_language = :erb
-  @@raise_render_exception = true
-  @@mjml_binary_version_supported = "4."
-  @@mjml_binary_error_string = "Couldn't find the MJML #{Mjml.mjml_binary_version_supported} binary.. have you run $ npm install mjml?"
-  @@beautify = true
-  @@minify = false
-  @@validation_level = "soft"
-
   def self.check_version(bin)
-    IO.popen([bin, '--version']) { |io| io.read.include?("mjml-core: #{Mjml.mjml_binary_version_supported}") }
+    IO.popen([bin, '--version']) { |io| io.read.include?("mjml-core: #{Mjml.configuration.mjml_binary_version_supported}") }
   rescue
     false
   end
@@ -31,14 +22,14 @@ module Mjml
     # Check for a local install of MJML binary
     installer_path = bin_path_from('npm') || bin_path_from('yarn')
     unless installer_path
-      puts Mjml.mjml_binary_error_string
+      puts Mjml.configuration.mjml_binary_error_string
       return nil
     end
 
     mjml_bin = File.join(installer_path, 'mjml')
     return mjml_bin if check_version(mjml_bin)
 
-    puts Mjml.mjml_binary_error_string
+    puts Mjml.configuration.mjml_binary_error_string
     nil
   end
 
@@ -53,7 +44,7 @@ module Mjml
 
   class Handler
     def template_handler
-      @_template_handler ||= ActionView::Template.registered_template_handler(Mjml.template_language)
+      @_template_handler ||= ActionView::Template.registered_template_handler(Mjml.configuration.template_language)
     end
 
     # Optional second source parameter to make it work with Rails >= 6:
@@ -80,10 +71,6 @@ module Mjml
         compiled_source
       end
     end
-  end
-
-  def self.setup
-    yield self if block_given?
   end
 
   class << self
