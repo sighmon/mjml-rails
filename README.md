@@ -9,7 +9,7 @@
 An example template might look like:
 
 ```erb
-<!-- ./app/views/user_mailer/email.html.mjml -->
+<!-- ./app/views/user_mailer/user_signup_confirmation.mjml -->
 <mjml>
   <mj-head>
     <mj-preview>Hello World</mj-preview>
