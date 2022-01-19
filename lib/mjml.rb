@@ -110,7 +110,7 @@ module Mjml
   end
 
   def capture3(cmd)
-    pid, stdin, stdout, stderr = popen4(cmd)
+    pid, stdin, stdout, stderr = POSIX::Spawn.popen4(cmd)
     stdin.close
     out = stdout.read
     err = stderr.read
@@ -118,7 +118,6 @@ module Mjml
     [out, err, status]
   ensure
     [stdin, stdout, stderr].each { |io| io.close unless io.closed? }
-    Process.waitpid(pid)
   end
 
   class << self
