@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rubygems'
-require 'open3'
+require 'posix/spawn'
 
 require 'mjml/handler'
 require 'mjml/parser'
@@ -38,7 +38,7 @@ module Mjml
   end
 
   def self.run_mjml(args, mjml_bin: valid_mjml_binary)
-    Open3.capture3("#{mjml_bin} #{args}")
+    capture3("#{mjml_bin} #{args}")
   end
 
   def self.valid_mjml_binary
@@ -54,11 +54,11 @@ module Mjml
   end
 
   def self.check_for_custom_mjml_binary
-    if const_defined?('BIN') && Mjml::BIN.present?
+    if const_defined?(:BIN) && Mjml::BIN.present?
       logger.warn('Setting `Mjml::BIN` is deprecated and will be removed in a future version! ' \
                   'Please use `Mjml.mjml_binary=` instead.')
       self.mjml_binary = Mjml::BIN
-      remove_const 'BIN'
+      remove_const :BIN
     end
 
     return if mjml_binary.blank?
@@ -91,7 +91,7 @@ module Mjml
   end
 
   def self.bin_path_from(package_manager)
-    stdout, _, status = Open3.capture3("#{package_manager} bin")
+    stdout, _, status = capture3("#{package_manager} bin")
 
     return unless status.success?
 
@@ -107,6 +107,18 @@ module Mjml
 
   def self.setup
     yield self if block_given?
+  end
+
+  def capture3(cmd)
+    pid, stdin, stdout, stderr = popen4(cmd)
+    stdin.close
+    out = stdout.read
+    err = stderr.read
+    _, status = Process.waitpid2(pid)
+    [out, err, status]
+  ensure
+    [stdin, stdout, stderr].each { |io| io.close unless io.closed? }
+    Process.waitpid(pid)
   end
 
   class << self
