@@ -109,7 +109,7 @@ module Mjml
     yield self if block_given?
   end
 
-  def capture3(cmd)
+  def self.capture3(cmd)
     pid, stdin, stdout, stderr = POSIX::Spawn.popen4(cmd)
     stdin.close
     out = stdout.read
