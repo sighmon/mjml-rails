@@ -1,3 +1,7 @@
+## 4.9.0
+
+* Darren Rush refactored the tempfile IO to stdin/stdout and added support for `<mj-include>`.
+
 ## 4.8.0
 
 * Alan Halatian updated the MJML binary discovery when installed with Yarn.
