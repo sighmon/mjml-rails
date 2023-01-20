@@ -37,8 +37,8 @@ module Mjml
     false
   end
 
-  def self.run_mjml(args, mjml_bin: valid_mjml_binary)
-    Open3.capture3("#{mjml_bin} #{args}")
+  def self.run_mjml(args, mjml_bin: valid_mjml_binary, stdin_data: nil)
+    Open3.capture3("#{mjml_bin} #{args}", stdin_data: stdin_data)
   end
 
   def self.valid_mjml_binary
