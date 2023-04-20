@@ -16,6 +16,8 @@ module Mjml
     def call(template, source = nil)
       compiled_source = compile_source(source, template)
 
+      folder = File.dirname(template.identifier)
+
       # Per MJML v4 syntax documentation[0] valid/render'able document MUST start with <mjml> root tag
       # If we get here and template source doesn't start with one it means
       # that we are rendering partial named according to legacy naming convention (partials ending with '.mjml')
@@ -23,8 +25,9 @@ module Mjml
       # by MJML library when top-level layout/template is rendered
       #
       # [0] - https://github.com/mjmlio/mjml/blob/master/doc/components_1.md#mjml
+
       if /<mjml.*?>/i.match?(compiled_source)
-        "Mjml::Parser.new(begin;#{compiled_source};end).render.html_safe"
+        "Mjml::Parser.new(begin;#{compiled_source};end, \"#{folder}\").render.html_safe"
       else
         compiled_source
       end
