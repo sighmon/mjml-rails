@@ -71,33 +71,33 @@ module Mjml
 
   def self.check_for_yarn_mjml_binary
     yarn_bin = `which yarn`.chomp
-    return unless yarn_bin.present? && (installer_path = bin_path_from(yarn_bin)).present?
+    return if yarn_bin.blank?
 
-    mjml_bin = File.join(installer_path, 'mjml')
+    stdout, _, status = Open3.capture3("#{yarn_bin} bin mjml")
+    return unless status.success?
+
+    mjml_bin = stdout.chomp
     return mjml_bin if check_version(mjml_bin)
+  rescue Errno::ENOENT # package manager is not installed
+    nil
   end
 
   def self.check_for_npm_mjml_binary
     npm_bin = `which npm`.chomp
-    return unless npm_bin.present? && (installer_path = bin_path_from(npm_bin)).present?
+    return if npm_bin.blank?
 
-    mjml_bin = File.join(installer_path, 'mjml')
+    stdout, _, status = Open3.capture3("#{npm_bin} root")
+    return unless status.success?
+
+    mjml_bin = File.join(stdout.chomp, '.bin', 'mjml')
     return mjml_bin if check_version(mjml_bin)
+  rescue Errno::ENOENT # package manager is not installed
+    nil
   end
 
   def self.check_for_global_mjml_binary
     mjml_bin = `which mjml`.chomp
     return mjml_bin if mjml_bin.present? && check_version(mjml_bin)
-  end
-
-  def self.bin_path_from(package_manager)
-    stdout, _, status = Open3.capture3("#{package_manager} bin")
-
-    return unless status.success?
-
-    stdout.chomp
-  rescue Errno::ENOENT # package manager is not installed
-    nil
   end
 
   def self.discover_mjml_bin
