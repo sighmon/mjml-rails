@@ -1,3 +1,7 @@
+## 4.9.0
+
+* Yuta Hayashi added support for Yarn 2.
+
 ## 4.8.0
 
 * Alan Halatian updated the MJML binary discovery when installed with Yarn.
