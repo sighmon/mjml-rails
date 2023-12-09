@@ -23,6 +23,7 @@ Gem::Specification.new do |s| # rubocop:disable Gemspec/RequireMFA
   s.require_paths = ['lib']
   s.post_install_message = "Don't forget to install MJML e.g. \n$ npm install mjml"
 
+  s.add_dependency 'mrml'
   s.add_development_dependency 'byebug'
   s.add_development_dependency 'mocha', '2.1.0'
   s.add_development_dependency 'rails'
