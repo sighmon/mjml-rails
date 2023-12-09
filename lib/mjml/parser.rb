@@ -19,6 +19,10 @@ module Mjml
     # @return [String]
     def render
       MRML.to_html(input)
+    rescue StandardError
+      raise if Mjml.raise_render_exception
+
+      ''
     end
   end
 end
