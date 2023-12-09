@@ -5,6 +5,7 @@ require 'open3'
 
 require 'mjml/handler'
 require 'mjml/parser'
+require 'mjml/mrml_parser'
 
 require 'mjml/railtie' if defined?(Rails)
 
@@ -17,7 +18,8 @@ module Mjml
     :mjml_binary_version_supported,
     :raise_render_exception,
     :template_language,
-    :validation_level
+    :validation_level,
+    :use_mrml
 
   mattr_writer :valid_mjml_binary
 
@@ -29,6 +31,7 @@ module Mjml
   self.beautify = true
   self.minify = false
   self.validation_level = 'strict'
+  self.use_mrml = false
 
   def self.check_version(bin)
     stdout, _, status = run_mjml('--version', mjml_bin: bin)
