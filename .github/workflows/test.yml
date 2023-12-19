@@ -29,6 +29,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby_version }}
+      - name: Install Bundler 2.4 for Ruby 2.7
+        if: matrix.ruby_version == '2.7'
+        run: gem install bundler -v 2.4
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -37,8 +40,11 @@ jobs:
         env:
           RAILS_VERSION: ${{ matrix.rails_version }}
         run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+          if [ "${{ matrix.ruby_version }}" = "2.7" ]; then
+            bundle _2.4_ install --jobs 4 --retry 3
+          else
+            bundle install --jobs 4 --retry 3
+          fi
       - name: Install mjml with npm
         if: ${{ matrix.package_manager == 'npm' }}
         run: npm add mjml
