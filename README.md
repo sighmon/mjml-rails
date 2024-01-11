@@ -54,6 +54,8 @@ end
 
 ## Installation
 
+### Using MJML NPM package
+
 Add it to your Gemfile.
 
 ```ruby
@@ -82,6 +84,34 @@ yarn add mjml
 MJML-Rails falls back to a global installation of MJML but it is strongly recommended to add MJML directly to your project.
 
 You'll need at least Node.js version 6 for MJML to function properly.
+
+### Using MRML with included binaries
+
+If for some reason you can't or don't want to run JS code in your production environment, you can use [MRML](https://github.com/hardpixel/mrml-ruby). It ships with already compiled binaries for Rust implementation of MJML so it has no external dependencies.
+
+Add `mjml-rails` and `mrml` to your Gemfile.
+
+```ruby
+gem 'mjml-rails'
+gem 'mrml'
+```
+
+Run the following command to install it:
+
+```console
+bundle install
+```
+
+Set `use_mrml` option to `true` in your initializer:
+
+```ruby
+# config/initializers/mjml.rb
+Mjml.setup do |config|
+  config.use_mrml = true
+end
+```
+
+**Note**: MRML does not fully support all MJML functionalities, see [Missing implementations](https://github.com/jdrouet/mrml#missing-implementations)
 
 ## Configuration
 
@@ -119,11 +149,13 @@ MJML-Rails has the following settings with defaults:
 
    MJML-Rails checks the version of the MJML binary and fails if it does not start with this version, e.g. if an old version is installed by accident.
 
+- `use_mrml: false`
+  Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_support`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
 
 ```ruby
 # config/initializers/mjml.rb
 Mjml.setup do |config|
-  # Use :haml as a template language
+  # Use :haml as a template languag
   config.template_language = :haml
 
   # Ignore errors silently
@@ -135,6 +167,9 @@ Mjml.setup do |config|
 
   # Render MJML templates with errors
   config.validation_level = "soft"
+
+  # Use MRML instead of MJML, false by default
+  config.use_mrml = false
 
   # Use custom MJML binary with custom version
   config.mjml_binary = "/path/to/custom/mjml"

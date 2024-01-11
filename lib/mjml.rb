@@ -5,8 +5,7 @@ require 'open3'
 
 require 'mjml/handler'
 require 'mjml/parser'
-require 'mjml/mrml_parser'
-
+require 'mjml/mrml_parser' if defined?(MRML)
 require 'mjml/railtie' if defined?(Rails)
 
 module Mjml
