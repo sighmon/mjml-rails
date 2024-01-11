@@ -155,7 +155,7 @@ MJML-Rails has the following settings with defaults:
 ```ruby
 # config/initializers/mjml.rb
 Mjml.setup do |config|
-  # Use :haml as a template languag
+  # Use :haml as a template language
   config.template_language = :haml
 
   # Ignore errors silently
