@@ -145,12 +145,12 @@ MJML-Rails has the following settings with defaults:
 
    This can be used to specify the path to a custom MJML binary if it is not detected automatically (shouldn't be needed).
 
-- `mjml_binary_version_support: "4."`
+- `mjml_binary_version_supported: "4."`
 
    MJML-Rails checks the version of the MJML binary and fails if it does not start with this version, e.g. if an old version is installed by accident.
 
 - `use_mrml: false`
-  Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_support`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
+  Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_supported`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
 
 ```ruby
 # config/initializers/mjml.rb
