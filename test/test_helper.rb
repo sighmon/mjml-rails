@@ -14,6 +14,7 @@ require 'rails/generators'
 require 'rails/generators/test_case'
 require 'mocha/minitest'
 require 'byebug'
+require 'mrml'
 
 # require "minitest/reporters"
 # Minitest::Reporters.use!
