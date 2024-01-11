@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Mjml
   class MrmlParser
     attr_reader :input
