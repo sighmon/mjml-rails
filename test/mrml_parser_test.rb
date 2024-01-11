@@ -15,7 +15,6 @@ describe Mjml::MrmlParser do
     end
 
     describe 'when exception is raised' do
-      let(:error) { custom_error_class.new('custom error') }
       let(:input) { '<mjml><body><mj-text>Hello World</mj-text></body></mjml>' }
 
       it 'raises exception with render exception enabled' do
