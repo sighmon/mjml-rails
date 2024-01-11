@@ -3,22 +3,24 @@
 require 'test_helper'
 
 describe Mjml::MrmlParser do
-  let(:input) { mock('input') }
   let(:parser) { Mjml::MrmlParser.new(input) }
 
   describe '#render' do
-    describe 'when exception is raised' do
-      let(:custom_error_class) { Class.new(StandardError) }
-      let(:error) { custom_error_class.new('custom error') }
+    describe 'when input is valid' do
+      let(:input) { '<mjml><mj-body><mj-text>Hello World</mj-text></mj-body></mjml>' }
 
-      before do
-        parser.stubs(:run).raises(error)
+      it 'returns html' do
+        expect(parser.render).must_include 'Hello World</div>'
       end
+    end
+
+    describe 'when exception is raised' do
+      let(:error) { custom_error_class.new('custom error') }
+      let(:input) { '<mjml><body><mj-text>Hello World</mj-text></body></mjml>' }
 
       it 'raises exception with render exception enabled' do
         with_settings(raise_render_exception: true) do
-          err = expect { parser.render }.must_raise(custom_error_class)
-          expect(err.message).must_equal error.message
+          expect { parser.render }.must_raise(MRML::Error)
         end
       end
 
