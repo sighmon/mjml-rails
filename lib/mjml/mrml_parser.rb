@@ -16,6 +16,9 @@ module Mjml
     # @return [String]
     def render
       MRML.to_html(input)
+    rescue NameError
+      Mjml.logger.fatal('MRML is not installed. Please add `gem "mrml"` to your Gemfile.')
+      raise
     rescue StandardError
       raise if Mjml.raise_render_exception
 
