@@ -1,3 +1,7 @@
+## 4.10.0
+
+* Pokonski added support for MRML which is a fast Rust implementation of MJML.
+
 ## 4.9.0
 
 * Yuta Hayashi added support for Yarn 2.
