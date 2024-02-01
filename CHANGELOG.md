@@ -1,3 +1,7 @@
+## 4.10.1
+
+* Fixed the binary check when using MRML to avoid warnings.
+
 ## 4.10.0
 
 * Pokonski added support for MRML which is a fast Rust implementation of MJML.
