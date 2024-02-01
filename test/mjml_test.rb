@@ -119,11 +119,13 @@ describe Mjml do
     before do
       Mjml.mjml_binary = nil
       Mjml.valid_mjml_binary = nil
+      Mjml.use_mrml = nil
     end
 
     after do
       Mjml.mjml_binary = nil
       Mjml.valid_mjml_binary = nil
+      Mjml.use_mrml = nil
     end
 
     it 'can be set to a custom value with mjml_binary if version is correct' do
@@ -155,6 +157,20 @@ describe Mjml do
       err = expect { Mjml.valid_mjml_binary }.must_raise(StandardError)
       assert(err.message.start_with?("MJML.mjml_binary is set to 'set by mjml_binary' " \
                                      'but MJML-Rails could not validate that it is a valid MJML binary'))
+    end
+
+    it 'can use MRML and check for a valid binary' do
+      Mjml.use_mrml = true
+      Mjml.stubs(:check_for_custom_mjml_binary).returns(false)
+      Mjml.stubs(:check_for_yarn_mjml_binary).returns(false)
+      Mjml.stubs(:check_for_npm_mjml_binary).returns(false)
+      Mjml.stubs(:check_for_global_mjml_binary).returns(false)
+      expect(Mjml.valid_mjml_binary).must_equal(true)
+
+      Mjml.valid_mjml_binary = nil
+      MRML.stubs(:present?).raises(NameError)
+      assert_nil(Mjml.valid_mjml_binary)
+      expect(Mjml.mjml_binary_error_string).must_equal 'Couldn\'t find MRML - did you add \'mrml\' to your Gemfile?'
     end
   end
 end

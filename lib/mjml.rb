@@ -48,7 +48,8 @@ module Mjml
                              check_for_custom_mjml_binary ||
                              check_for_yarn_mjml_binary ||
                              check_for_npm_mjml_binary ||
-                             check_for_global_mjml_binary
+                             check_for_global_mjml_binary ||
+                             check_for_mrml_binary
 
     return @@valid_mjml_binary if @@valid_mjml_binary
 
@@ -100,6 +101,13 @@ module Mjml
   def self.check_for_global_mjml_binary
     mjml_bin = `which mjml`.chomp
     return mjml_bin if mjml_bin.present? && check_version(mjml_bin)
+  end
+
+  def self.check_for_mrml_binary
+    MRML.present?
+  rescue NameError
+    Mjml.mjml_binary_error_string = 'Couldn\'t find MRML - did you add \'mrml\' to your Gemfile?'
+    false
   end
 
   def self.discover_mjml_bin
