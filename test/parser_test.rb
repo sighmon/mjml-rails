@@ -37,11 +37,18 @@ describe Mjml::Parser do
       end
     end
 
-    describe 'can read beautify, minify, and validation_level configs' do
+    describe 'can read beautify, minify, fonts and validation_level configs' do
       it 'uses defaults if no config is set' do
         expect(Mjml.beautify).must_equal(true)
         expect(Mjml.minify).must_equal(false)
         expect(Mjml.validation_level).must_equal('strict')
+        expect(Mjml.fonts).must_equal({
+                                        'Open Sans': 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700',
+                                        'Droid Sans': 'https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700',
+                                        Lato: 'https://fonts.googleapis.com/css?family=Lato:300,400,500,700',
+                                        Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
+                                        Ubuntu: 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700'
+                                      })
       end
 
       it 'uses setup config' do
@@ -49,16 +56,25 @@ describe Mjml::Parser do
           config.beautify = false
           config.minify = true
           config.validation_level = 'soft'
+          config.fonts = { Mononoki: 'https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/mononoki.min.css' }
         end
 
         expect(Mjml.beautify).must_equal(false)
         expect(Mjml.minify).must_equal(true)
         expect(Mjml.validation_level).must_equal('soft')
+        expect(Mjml.fonts).must_equal({ Mononoki: 'https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/mononoki.min.css' })
 
         Mjml.setup do |config|
           config.beautify = true
           config.minify = false
           config.validation_level = 'strict'
+          config.fonts = {
+            'Open Sans': 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700',
+            'Droid Sans': 'https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700',
+            Lato: 'https://fonts.googleapis.com/css?family=Lato:300,400,500,700',
+            Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
+            Ubuntu: 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700'
+          }
         end
       end
     end

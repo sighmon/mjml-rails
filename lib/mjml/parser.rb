@@ -23,7 +23,7 @@ module Mjml
         file.write(input)
         file # return tempfile from block so #unlink works later
       end
-      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level)
+      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level, Mjml.fonts)
     rescue StandardError
       raise if Mjml.raise_render_exception
 
@@ -36,10 +36,14 @@ module Mjml
     #
     # @return [String] The result as string
     # rubocop:disable Style/OptionalBooleanParameter: Fixing this offense would imply a change in the public API.
-    def run(in_tmp_file, beautify = true, minify = false, validation_level = 'strict')
+    # rubocop:disable Metrics/MethodLength:
+    # rubocop:disable Metrics/ParameterLists:
+    def run(in_tmp_file, beautify = true, minify = false, validation_level = 'strict', fonts = {})
       Tempfile.create(['out', '.html']) do |out_tmp_file|
         command = "-r #{in_tmp_file} -o #{out_tmp_file.path} " \
-                  "--config.beautify #{beautify} --config.minify #{minify} --config.validationLevel #{validation_level}"
+                  "--config.beautify #{beautify} --config.minify #{minify} " \
+                  "--config.validationLevel #{validation_level} --config.fonts '#{fonts.to_json}'"
+
         _, stderr, status = Mjml.run_mjml(command)
 
         unless status.success?
@@ -52,6 +56,8 @@ module Mjml
         out_tmp_file.read
       end
     end
+    # rubocop:enable Metrics/ParameterLists
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Style/OptionalBooleanParameter
   end
 end

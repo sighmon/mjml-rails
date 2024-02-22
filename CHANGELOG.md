@@ -1,3 +1,7 @@
+## 4.10.2
+
+* Claire Zuliani added config settings for MJML fonts.
+  
 ## 4.10.1
 
 * Fixed the binary check when using MRML to avoid warnings.
