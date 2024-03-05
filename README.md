@@ -153,16 +153,9 @@ MJML-Rails has the following settings with defaults:
   Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_supported`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
   
 - `fonts`
-  ```ruby
-  fonts: {
-              'Open Sans': 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700',
-              'Droid Sans': 'https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700',
-              Lato: 'https://fonts.googleapis.com/css?family=Lato:300,400,500,700',
-              Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
-              Ubuntu: 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700',
-          }.to_json
-  ```
-  Default fonts imported in the HTML rendered by MJML, in JSON
+  By default, MJML-Rails uses MJML default fonts, but enables you to override it. 
+  Example : `config.fonts = { Raleway: 'https://fonts.googleapis.com/css?family=Raleway }`
+
 
 ```ruby
 # config/initializers/mjml.rb

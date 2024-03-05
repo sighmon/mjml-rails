@@ -42,13 +42,6 @@ describe Mjml::Parser do
         expect(Mjml.beautify).must_equal(true)
         expect(Mjml.minify).must_equal(false)
         expect(Mjml.validation_level).must_equal('strict')
-        expect(Mjml.fonts).must_equal({
-                                        'Open Sans': 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700',
-                                        'Droid Sans': 'https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700',
-                                        Lato: 'https://fonts.googleapis.com/css?family=Lato:300,400,500,700',
-                                        Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
-                                        Ubuntu: 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700'
-                                      })
       end
 
       it 'uses setup config' do
@@ -68,13 +61,6 @@ describe Mjml::Parser do
           config.beautify = true
           config.minify = false
           config.validation_level = 'strict'
-          config.fonts = {
-            'Open Sans': 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700',
-            'Droid Sans': 'https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700',
-            Lato: 'https://fonts.googleapis.com/css?family=Lato:300,400,500,700',
-            Roboto: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
-            Ubuntu: 'https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700'
-          }
         end
       end
     end

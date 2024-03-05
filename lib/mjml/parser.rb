@@ -23,7 +23,7 @@ module Mjml
         file.write(input)
         file # return tempfile from block so #unlink works later
       end
-      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level, Mjml.fonts)
+      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level)
     rescue StandardError
       raise if Mjml.raise_render_exception
 
@@ -38,11 +38,12 @@ module Mjml
     # rubocop:disable Style/OptionalBooleanParameter: Fixing this offense would imply a change in the public API.
     # rubocop:disable Metrics/MethodLength:
     # rubocop:disable Metrics/ParameterLists:
-    def run(in_tmp_file, beautify = true, minify = false, validation_level = 'strict', fonts = {})
+    def run(in_tmp_file, beautify = true, minify = false, validation_level = 'strict', options = {})
       Tempfile.create(['out', '.html']) do |out_tmp_file|
         command = "-r #{in_tmp_file} -o #{out_tmp_file.path} " \
                   "--config.beautify #{beautify} --config.minify #{minify} " \
-                  "--config.validationLevel #{validation_level} --config.fonts '#{fonts.to_json}'"
+                  "--config.validationLevel #{validation_level}"
+        command += " --config.fonts '#{options[:fonts].to_json}'" if options[:fonts].present?
 
         _, stderr, status = Mjml.run_mjml(command)
 
