@@ -62,6 +62,7 @@ describe Mjml::Parser do
           config.beautify = true
           config.minify = false
           config.validation_level = 'strict'
+          config.fonts = nil
         end
       end
     end
