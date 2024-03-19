@@ -203,7 +203,7 @@ npm install -g mjml@3.3.5
 
 ### How to guides
 
-[Hugo Giraudel](https://twitter.com/hugogiraudel) wrote a post on [using MJML in Rails](http://dev.edenspiekermann.com/2016/06/02/using-mjml-in-rails/).
+[Kitty Giraudel](https://twitter.com/KittyGiraudel) wrote a post on [using MJML in Rails](http://dev.edenspiekermann.com/2016/06/02/using-mjml-in-rails/).
 
 ## Using Email Layouts
 
