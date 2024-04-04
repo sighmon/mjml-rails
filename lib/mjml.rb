@@ -32,6 +32,7 @@ module Mjml
   self.minify = false
   self.validation_level = 'strict'
   self.use_mrml = false
+  self.fonts = nil
 
   def self.check_version(bin)
     stdout, _, status = run_mjml('--version', mjml_bin: bin)

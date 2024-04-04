@@ -42,6 +42,7 @@ describe Mjml::Parser do
         expect(Mjml.beautify).must_equal(true)
         expect(Mjml.minify).must_equal(false)
         expect(Mjml.validation_level).must_equal('strict')
+        expect(Mjml.fonts).must_equal(nil)
       end
 
       it 'uses setup config' do
@@ -61,6 +62,7 @@ describe Mjml::Parser do
           config.beautify = true
           config.minify = false
           config.validation_level = 'strict'
+          config.fonts = nil
         end
       end
     end
