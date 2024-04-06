@@ -1,4 +1,4 @@
-## 4.10.2
+## 4.11.0
 
 * Claire Zuliani added config settings for MJML fonts.
   
