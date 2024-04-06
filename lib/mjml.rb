@@ -12,6 +12,7 @@ module Mjml
   mattr_accessor \
     :beautify,
     :minify,
+    :fonts,
     :mjml_binary,
     :mjml_binary_error_string,
     :mjml_binary_version_supported,
@@ -31,6 +32,7 @@ module Mjml
   self.minify = false
   self.validation_level = 'strict'
   self.use_mrml = false
+  self.fonts = nil
 
   def self.check_version(bin)
     stdout, _, status = run_mjml('--version', mjml_bin: bin)

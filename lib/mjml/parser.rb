@@ -23,7 +23,7 @@ module Mjml
         file.write(input)
         file # return tempfile from block so #unlink works later
       end
-      run(in_tmp_file.path, Mjml.beautify, Mjml.minify, Mjml.validation_level)
+      run(in_tmp_file.path)
     rescue StandardError
       raise if Mjml.raise_render_exception
 
@@ -35,12 +35,9 @@ module Mjml
     # Exec mjml command
     #
     # @return [String] The result as string
-    # rubocop:disable Style/OptionalBooleanParameter: Fixing this offense would imply a change in the public API.
-    def run(in_tmp_file, beautify = true, minify = false, validation_level = 'strict')
+    def run(in_tmp_file)
       Tempfile.create(['out', '.html']) do |out_tmp_file|
-        command = "-r #{in_tmp_file} -o #{out_tmp_file.path} " \
-                  "--config.beautify #{beautify} --config.minify #{minify} --config.validationLevel #{validation_level}"
-        _, stderr, status = Mjml.run_mjml(command)
+        _, stderr, status = Mjml.run_mjml(build_command(in_tmp_file, out_tmp_file))
 
         unless status.success?
           # The process status ist quite helpful in case of dying processes without STDERR output.
@@ -52,6 +49,17 @@ module Mjml
         out_tmp_file.read
       end
     end
-    # rubocop:enable Style/OptionalBooleanParameter
+
+    # Build command string from config variables
+    #
+    # @return [String] Command string
+    def build_command(in_file, out_file)
+      command = "-r #{in_file} -o #{out_file.path} " \
+                "--config.beautify #{Mjml.beautify} " \
+                "--config.minify #{Mjml.minify} " \
+                "--config.validationLevel #{Mjml.validation_level}"
+      command += " --config.fonts '#{Mjml.fonts.to_json}'" unless Mjml.fonts.nil?
+      command
+    end
   end
 end

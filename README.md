@@ -151,6 +151,11 @@ MJML-Rails has the following settings with defaults:
 
 - `use_mrml: false`
   Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_supported`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
+  
+- `fonts`
+  By default, MJML-Rails uses MJML default fonts, but enables you to override it. 
+  Example : `config.fonts = { Raleway: 'https://fonts.googleapis.com/css?family=Raleway }`
+
 
 ```ruby
 # config/initializers/mjml.rb
@@ -174,6 +179,9 @@ Mjml.setup do |config|
   # Use custom MJML binary with custom version
   config.mjml_binary = "/path/to/custom/mjml"
   config.mjml_binary_version_supported = "3.3.5"
+
+  # Use default system fonts instead of google fonts
+  config.fonts = {}
 end
 ```
 
