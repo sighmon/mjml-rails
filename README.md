@@ -79,6 +79,9 @@ npm install -g mjml
 
 # with yarn
 yarn add mjml
+
+# with bun
+bun add mjml
 ```
 
 MJML-Rails falls back to a global installation of MJML but it is strongly recommended to add MJML directly to your project.
@@ -151,9 +154,9 @@ MJML-Rails has the following settings with defaults:
 
 - `use_mrml: false`
   Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_supported`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
-  
+
 - `fonts`
-  By default, MJML-Rails uses MJML default fonts, but enables you to override it. 
+  By default, MJML-Rails uses MJML default fonts, but enables you to override it.
   Example : `config.fonts = { Raleway: 'https://fonts.googleapis.com/css?family=Raleway }`
 
 

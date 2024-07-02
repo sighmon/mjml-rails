@@ -162,6 +162,7 @@ describe Mjml do
     it 'can use MRML and check for a valid binary' do
       Mjml.use_mrml = true
       Mjml.stubs(:check_for_custom_mjml_binary).returns(false)
+      Mjml.stubs(:check_for_bun_mjml_binary).returns(false)
       Mjml.stubs(:check_for_yarn_mjml_binary).returns(false)
       Mjml.stubs(:check_for_npm_mjml_binary).returns(false)
       Mjml.stubs(:check_for_global_mjml_binary).returns(false)

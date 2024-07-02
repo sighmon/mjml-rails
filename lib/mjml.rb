@@ -48,6 +48,7 @@ module Mjml
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
+                             check_for_bun_mjml_binary ||
                              check_for_yarn_mjml_binary ||
                              check_for_npm_mjml_binary ||
                              check_for_global_mjml_binary ||
@@ -72,6 +73,19 @@ module Mjml
 
     raise "MJML.mjml_binary is set to '#{mjml_binary}' but MJML-Rails could not validate that " \
           'it is a valid MJML binary. Please check your configuration.'
+  end
+
+  def self.check_for_bun_mjml_binary
+    bun_bin = `which bun`.chomp
+    return if bun_bin.blank?
+
+    stdout, _, status = Open3.capture3("#{bun_bin} pm bin")
+    return unless status.success?
+
+    mjml_bin = File.join(stdout.chomp, 'mjml')
+    return mjml_bin if check_version(mjml_bin)
+  rescue Errno::ENOENT # package manager is not installed
+    nil
   end
 
   def self.check_for_yarn_mjml_binary
