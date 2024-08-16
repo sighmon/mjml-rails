@@ -48,9 +48,7 @@ module Mjml
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
-                             check_for_bun_mjml_binary ||
-                             check_for_yarn_mjml_binary ||
-                             check_for_npm_mjml_binary ||
+                             check_for_package_mjml_binary ||
                              check_for_global_mjml_binary ||
                              check_for_mrml_binary
 
@@ -75,43 +73,23 @@ module Mjml
           'it is a valid MJML binary. Please check your configuration.'
   end
 
-  def self.check_for_bun_mjml_binary
-    bun_bin = `which bun`.chomp
-    return if bun_bin.blank?
+  def self.check_for_mjml_package(package_manager, bin_command, binary_path)
+    pm_bin = `which #{package_manager}`.chomp
+    return if pm_bin.blank?
 
-    stdout, _, status = Open3.capture3("#{bun_bin} pm bin")
+    stdout, _, status = Open3.capture3("#{pm_bin} #{bin_command}")
     return unless status.success?
 
-    mjml_bin = File.join(stdout.chomp, 'mjml')
+    mjml_bin = File.join(stdout.chomp, *binary_path)
     return mjml_bin if check_version(mjml_bin)
   rescue Errno::ENOENT # package manager is not installed
     nil
   end
 
-  def self.check_for_yarn_mjml_binary
-    yarn_bin = `which yarn`.chomp
-    return if yarn_bin.blank?
-
-    stdout, _, status = Open3.capture3("#{yarn_bin} bin mjml")
-    return unless status.success?
-
-    mjml_bin = stdout.chomp
-    return mjml_bin if check_version(mjml_bin)
-  rescue Errno::ENOENT # package manager is not installed
-    nil
-  end
-
-  def self.check_for_npm_mjml_binary
-    npm_bin = `which npm`.chomp
-    return if npm_bin.blank?
-
-    stdout, _, status = Open3.capture3("#{npm_bin} root")
-    return unless status.success?
-
-    mjml_bin = File.join(stdout.chomp, '.bin', 'mjml')
-    return mjml_bin if check_version(mjml_bin)
-  rescue Errno::ENOENT # package manager is not installed
-    nil
+  def self.check_for_package_mjml_binary
+    check_for_mjml_package('bun', 'pm bin', ['mjml']) ||
+      check_for_mjml_package('npm', 'root', ['.bin', 'mjml']) ||
+      check_for_mjml_package('yarn', 'bin mjml', [])
   end
 
   def self.check_for_global_mjml_binary
