@@ -1,3 +1,7 @@
+## 4.12.0
+
+* Ray Brown added support for the Bun package manager.
+
 ## 4.11.0
 
 * Claire Zuliani added config settings for MJML fonts.
