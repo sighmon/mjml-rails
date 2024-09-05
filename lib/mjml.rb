@@ -74,8 +74,9 @@ module Mjml
   end
 
   def self.check_for_mjml_package(package_manager, bin_command, binary_path)
-    pm_bin = `which #{package_manager}`.chomp
-    return if pm_bin.blank?
+    stdout, _, status = Open3.capture3("which #{package_manager}")
+    return unless status.success?
+    pm_bin = stdout.chomp
 
     stdout, _, status = Open3.capture3("#{pm_bin} #{bin_command}")
     return unless status.success?
@@ -93,11 +94,14 @@ module Mjml
   end
 
   def self.check_for_global_mjml_binary
-    mjml_bin = `which mjml`.chomp
+    stdout, _, status = Open3.capture3("which mjml")
+    return unless status.success?
+    mjml_bin = stdout.chomp
     return mjml_bin if mjml_bin.present? && check_version(mjml_bin)
   end
 
   def self.check_for_mrml_binary
+    return unless Mjml.use_mrml
     MRML.present?
   rescue NameError
     Mjml.mjml_binary_error_string = 'Couldn\'t find MRML - did you add \'mrml\' to your Gemfile?'
