@@ -1,3 +1,7 @@
+## 4.12.1
+
+* Paul Hinze fixed a stray stderr output on machines with GNU which.
+
 ## 4.12.0
 
 * Ray Brown added support for the Bun package manager.
