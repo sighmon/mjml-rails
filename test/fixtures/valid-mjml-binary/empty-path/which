@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# simulate GNU which's stderr message when it cannot find something
+>&2 echo "I should not show up in test output"
+
+# simulate an empty path by always returning nonzero
+exit 1

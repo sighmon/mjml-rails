@@ -168,8 +168,19 @@ describe Mjml do
 
       Mjml.valid_mjml_binary = nil
       MRML.stubs(:present?).raises(NameError)
+      Mjml.stubs(:puts) # silence printed error message from test output
       assert_nil(Mjml.valid_mjml_binary)
       expect(Mjml.mjml_binary_error_string).must_equal 'Couldn\'t find MRML - did you add \'mrml\' to your Gemfile?'
+    end
+
+    it 'with nothing on the path, sets valid_mjml_binary to nil' do
+      old_path = ENV['PATH']
+      ENV['PATH'] = './test/fixtures/valid-mjml-binary/empty-path/'
+
+      Mjml.stubs(:puts) # silence printed error message from test output
+      assert_nil(Mjml.valid_mjml_binary)
+    ensure
+      ENV['PATH'] = old_path
     end
   end
 end
