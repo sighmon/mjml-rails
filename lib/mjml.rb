@@ -19,7 +19,8 @@ module Mjml
     :raise_render_exception,
     :template_language,
     :validation_level,
-    :use_mrml
+    :use_mrml,
+    :cache_mjml
 
   mattr_writer :valid_mjml_binary
 
