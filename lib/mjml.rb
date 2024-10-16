@@ -48,6 +48,7 @@ module Mjml
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
+                             check_for_node_modules_mjml_binary ||
                              check_for_package_mjml_binary ||
                              check_for_global_mjml_binary ||
                              check_for_mrml_binary
@@ -71,6 +72,15 @@ module Mjml
 
     raise "MJML.mjml_binary is set to '#{mjml_binary}' but MJML-Rails could not validate that " \
           'it is a valid MJML binary. Please check your configuration.'
+  end
+
+  def self.check_for_node_modules_mjml_binary
+    package_json = JSON.parse(Rails.root.join('node_modules/mjml/package.json').read)
+    if package_json['version'].start_with?(Mjml.mjml_binary_version_supported)
+      Rails.root.join('node_modules/.bin/mjml').to_s
+    end
+  rescue StandardError
+    false
   end
 
   def self.check_for_mjml_package(package_manager, bin_command, binary_path)

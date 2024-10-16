@@ -159,6 +159,15 @@ describe Mjml do
                                      'but MJML-Rails could not validate that it is a valid MJML binary'))
     end
 
+    it 'checks for node_modules first to avoid running the binary' do
+      Rails.stubs(:root).returns(Pathname.new('.'))
+      Mjml.stubs(:check_for_package_mjml_binary).never
+      Mjml.stubs(:check_for_global_mjml_binary).never
+      Mjml.stubs(:check_for_mrml_binary).never
+
+      expect(Mjml.valid_mjml_binary.to_s).must_match(%r{node_modules/.bin/mjml})
+    end
+
     it 'can use MRML and check for a valid binary' do
       Mjml.use_mrml = true
       Mjml.stubs(:check_for_custom_mjml_binary).returns(false)
