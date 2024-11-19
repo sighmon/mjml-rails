@@ -1,0 +1,18 @@
+<mjml owa="desktop">
+  <mj-body>
+    <mj-section>
+      <%= render partial: "user_header", formats: [:html] %>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <h2>We inform you about something</h2>
+          <p>
+            Please visit <a href="https://www.example.com">this link</a>
+          </p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
