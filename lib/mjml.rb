@@ -48,6 +48,7 @@ module Mjml
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
+                             check_for_bun_mjml_binary ||
                              check_for_package_mjml_binary ||
                              check_for_global_mjml_binary ||
                              check_for_mrml_binary
@@ -88,9 +89,18 @@ module Mjml
     nil
   end
 
+  def self.check_for_bun_mjml_binary
+    _, _, status = Open3.capture3('which bun')
+    return unless status.success?
+
+    # HINT: Bun always prioritizes local bins first and falls back to global installations
+    mjml_bin = 'bun run mjml'
+
+    return mjml_bin if check_version(mjml_bin)
+  end
+
   def self.check_for_package_mjml_binary
-    check_for_mjml_package('bun', 'pm bin', ['mjml']) ||
-      check_for_mjml_package('npm', 'root', ['.bin', 'mjml']) ||
+    check_for_mjml_package('npm', 'root', ['.bin', 'mjml']) ||
       check_for_mjml_package('yarn', 'bin mjml', [])
   end
 
