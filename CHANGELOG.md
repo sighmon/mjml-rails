@@ -1,3 +1,7 @@
+## 4.13.0
+
+* Noel Blaschke added support for Bun without Node.js
+
 ## 4.12.1
 
 * Paul Hinze fixed a stray stderr output on machines with GNU which.
