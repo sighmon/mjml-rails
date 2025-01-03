@@ -6,7 +6,8 @@ AllCops:
   DisplayCopNames: true
   NewCops: enable
 
-
+Metrics/ModuleLength:
+  Max: 120
 Metrics/BlockLength:
   IgnoredMethods:
     - describe
