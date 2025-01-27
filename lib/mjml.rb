@@ -45,6 +45,17 @@ module Mjml
     Open3.capture3("#{mjml_bin} #{args}")
   end
 
+  def self.which(command)
+    if Gem.win_platform?
+      stdout, _, status = Open3.capture3("where #{command}")
+    else
+      stdout, _, status = Open3.capture3("which #{command}")
+    end
+    status.success? ? stdout.chomp : nil
+  rescue Errno::ENOENT
+    nil
+  end
+
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
@@ -75,10 +86,8 @@ module Mjml
   end
 
   def self.check_for_mjml_package(package_manager, bin_command, binary_path)
-    stdout, _, status = Open3.capture3("which #{package_manager}")
-    return unless status.success?
-
-    pm_bin = stdout.chomp
+    pm_bin = Mjml.which(package_manager)
+    return unless pm_bin
 
     stdout, _, status = Open3.capture3("#{pm_bin} #{bin_command}")
     return unless status.success?
@@ -90,8 +99,7 @@ module Mjml
   end
 
   def self.check_for_bun_mjml_binary
-    _, _, status = Open3.capture3('which bun')
-    return unless status.success?
+    return unless Mjml.which('bun')
 
     # HINT: Bun always prioritizes local bins first and falls back to global installations
     mjml_bin = 'bun run mjml'
@@ -105,10 +113,9 @@ module Mjml
   end
 
   def self.check_for_global_mjml_binary
-    stdout, _, status = Open3.capture3('which mjml')
-    return unless status.success?
+    mjml_bin = Mjml.which('mjml')
+    return unless mjml_bin
 
-    mjml_bin = stdout.chomp
     return mjml_bin if mjml_bin.present? && check_version(mjml_bin)
   end
 
