@@ -1,3 +1,7 @@
+## 4.14.0
+
+* Emi added Windows support.
+
 ## 4.13.0
 
 * Noel Blaschke added support for Bun without Node.js
