@@ -2,5 +2,5 @@
 
 module Mjml
   # Version number no longer matches MJML.io version
-  VERSION = '4.14.0'
+  VERSION = '4.14.1'
 end

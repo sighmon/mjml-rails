@@ -1,3 +1,7 @@
+## 4.14.1
+
+* Tom Naessens prioritised mrml binary check to avoid mjml binary check warnings.
+
 ## 4.14.0
 
 * Emi added Windows support.
