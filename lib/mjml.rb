@@ -59,10 +59,10 @@ module Mjml
   def self.valid_mjml_binary
     self.valid_mjml_binary = @@valid_mjml_binary ||
                              check_for_custom_mjml_binary ||
+                             check_for_mrml_binary ||
                              check_for_bun_mjml_binary ||
                              check_for_package_mjml_binary ||
-                             check_for_global_mjml_binary ||
-                             check_for_mrml_binary
+                             check_for_global_mjml_binary
 
     return @@valid_mjml_binary if @@valid_mjml_binary
 
