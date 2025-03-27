@@ -21,6 +21,7 @@ module Mjml
       @with_cache    = Cache.new(template_path)
     end
 
+    # rubocop:disable Metrics/MethodLength
     # Render MJML template
     #
     # @return [String]
@@ -39,6 +40,7 @@ module Mjml
         in_tmp_file&.unlink
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Exec mjml command
     #
