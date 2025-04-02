@@ -34,6 +34,7 @@ module Mjml
   self.validation_level = 'strict'
   self.use_mrml = false
   self.fonts = nil
+  self.cache_mjml = false
 
   def self.check_version(bin)
     stdout, _, status = run_mjml('--version', mjml_bin: bin)
