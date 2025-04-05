@@ -1,3 +1,7 @@
+## 4.15.0
+
+* Nima Yonten added template caching.
+
 ## 4.14.1
 
 * Tom Naessens prioritised mrml binary check to avoid mjml binary check warnings.
