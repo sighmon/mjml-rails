@@ -4,7 +4,7 @@ require 'test_helper'
 
 describe Mjml::Parser do
   let(:input) { mock('input') }
-  let(:parser) { Mjml::Parser.new(input) }
+  let(:parser) { Mjml::Parser.new('test_template', input) }
 
   describe '#render' do
     describe 'when exception is raised' do
@@ -42,7 +42,7 @@ describe Mjml::Parser do
         expect(Mjml.beautify).must_equal(true)
         expect(Mjml.minify).must_equal(false)
         expect(Mjml.validation_level).must_equal('strict')
-        expect(Mjml.fonts).must_equal(nil)
+        assert_nil(Mjml.fonts)
       end
 
       it 'uses setup config' do

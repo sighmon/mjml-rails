@@ -68,6 +68,14 @@ Run the following command to install it:
 bundle install
 ```
 
+After installation, you can generate the MJML initializer file:
+
+```console
+rails generate mjml:install
+```
+
+This will create `config/initializers/mjml.rb` with default configuration options.
+
 Add the MJML parser to your project with your favourite package manager:
 
 ```console
@@ -124,7 +132,7 @@ MJML-Rails has the following settings with defaults:
 
    ERB can be used inside MJML templates by default. Possible values are all template languages that you have installed, e.g. `:haml` or `:slim`.
 
-   **Note:** If you’re using Haml/Slim layouts, please don’t put `<mjml>` in comments in your partial. Read more at [#34](https://github.com/sighmon/mjml-rails/issues/34).
+   **Note:** If you're using Haml/Slim layouts, please don't put `<mjml>` in comments in your partial. Read more at [#34](https://github.com/sighmon/mjml-rails/issues/34).
 
 - `raise_render_exception: true`
 
@@ -154,6 +162,9 @@ MJML-Rails has the following settings with defaults:
 
 - `use_mrml: false`
   Enabling this will allow you to use Rust implementation of MJML via the `mrml` gem. It comes with prebuilt binaries instead of having to install MJML along with Node. When enabled the options `mjml_binary_version_supported`, `mjml_binary`, `minify`, `beautify` and `validation_level` are ignored.
+
+- `cache_mjml: false`
+  By default, MJML-Rails does not cache compiled templates. Setting this to `true` will cache compiled templates in `tmp/mjml_cache` to improve performance for frequently used templates.
 
 - `fonts`
   By default, MJML-Rails uses MJML default fonts, but enables you to override it.
@@ -185,6 +196,9 @@ Mjml.setup do |config|
 
   # Use default system fonts instead of google fonts
   config.fonts = {}
+
+  # Uncomment this to enable template caching
+  # config.cache_mjml = true
 end
 ```
 

@@ -1,36 +1,46 @@
 # frozen_string_literal: true
 
+require 'digest'
+require_relative 'cache'
+
 module Mjml
   class Parser
     class ParseError < StandardError; end
 
-    attr_reader :input
+    attr_reader :template_path, :input
 
     # Create new parser
     #
-    # @param input [String] The string to transform in html
-    def initialize(input)
+    # @param template_path [String] The path to the .mjml file
+    # @param input [String] The content of the .mjml file
+    def initialize(template_path, input)
       raise Mjml.mjml_binary_error_string unless Mjml.valid_mjml_binary
 
-      @input = input
+      @template_path = template_path
+      @input         = input
+      @with_cache    = Cache.new(template_path)
     end
 
-    # Render mjml template
+    # rubocop:disable Metrics/MethodLength
+    # Render MJML template
     #
     # @return [String]
     def render
-      in_tmp_file = Tempfile.open(['in', '.mjml']) do |file|
-        file.write(input)
-        file # return tempfile from block so #unlink works later
-      end
-      run(in_tmp_file.path)
-    rescue StandardError
-      raise if Mjml.raise_render_exception
+      @with_cache.cache do
+        in_tmp_file = Tempfile.open(['in', '.mjml']) do |file|
+          file.write(input)
+          file # return tempfile from block so #unlink works later
+        end
+        run(in_tmp_file.path)
+      rescue StandardError
+        raise if Mjml.raise_render_exception
 
-      ''
-    ensure
-      in_tmp_file&.unlink
+        ''
+      ensure
+        in_tmp_file&.unlink
+      end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Exec mjml command
     #
