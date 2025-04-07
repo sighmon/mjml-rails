@@ -3,7 +3,7 @@
 require 'test_helper'
 
 describe Mjml::MrmlParser do
-  let(:parser) { Mjml::MrmlParser.new(input) }
+  let(:parser) { Mjml::MrmlParser.new('test_template', input) }
 
   describe '#render' do
     describe 'when input is valid' do
