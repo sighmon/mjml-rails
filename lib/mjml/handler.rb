@@ -17,7 +17,7 @@ module Mjml
       compiled_source = compile_source(source, template)
 
       parser_class = Mjml.use_mrml ? 'MrmlParser' : 'Parser'
-      template_path = template.virtual_path
+      template_path = template.respond_to?(:virtual_path) ? template.virtual_path : template.identifier
       # Per MJML v4 syntax documentation[0] valid/render'able document MUST start with <mjml> root tag
       # If we get here and template source doesn't start with one it means
       # that we are rendering partial named according to legacy naming convention (partials ending with '.mjml')
