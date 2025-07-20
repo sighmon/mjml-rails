@@ -1,3 +1,7 @@
+## 4.16.0
+
+* aki77 fixed template caching when using ViewComponent templates.
+
 ## 4.15.1
 
 * Robert Keresnyei fixed MRML after template caching broke it.
