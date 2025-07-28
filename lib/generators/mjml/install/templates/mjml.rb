@@ -27,7 +27,4 @@ Mjml.setup do |config|
   # Custom fonts configuration
   # Example: config.fonts = { Raleway: 'https://fonts.googleapis.com/css?family=Raleway' }
   config.fonts = nil
-
-  # Uncomment this to enable template caching
-  # config.cache_mjml = true
 end
