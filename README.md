@@ -166,6 +166,10 @@ MJML-Rails has the following settings with defaults:
 - `cache_mjml: false`
   By default, MJML-Rails does not cache compiled templates. Setting this to `true` will cache compiled templates in `tmp/mjml_cache` to improve performance for frequently used templates.
 
+> [!CAUTION]
+> Dynamic data/local variables: The dynamic data passed from your tests will not be reflected in the cached templates. In many cases, enabling it in production will result in caching that you don't expect.
+> see. https://github.com/sighmon/mjml-rails/issues/142
+
 - `fonts`
   By default, MJML-Rails uses MJML default fonts, but enables you to override it.
   Example : `config.fonts = { Raleway: 'https://fonts.googleapis.com/css?family=Raleway }`
