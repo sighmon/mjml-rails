@@ -146,9 +146,9 @@ MJML-Rails has the following settings with defaults:
 
    HTML minification. In MJML v5 this is handled by `htmlnano`.
 
-- `beautify: false`
+- `beautify: true`
 
-   In MJML v5 the upstream `js-beautify` integration was removed, so this option is effectively a no-op. Kept for backward compatibility with existing initializers.
+   Basically, the opposite of HTML minification; it formats HTML syntax and ensures proper indentation, line widths, etc. In MJML v5 this is handled by `prettier`.
 
 - `validation_level: "strict"`
 
@@ -186,7 +186,7 @@ Mjml.setup do |config|
   # Ignore errors silently
   config.raise_render_exception = false
 
-  # Optimize the size of your emails (beautify is a no-op under MJML v5)
+  # Optimize the size of your emails
   config.beautify = false
   config.minify = true
 
@@ -214,7 +214,6 @@ mjml-rails 5.x targets MJML 5.x. Key upstream changes that affect users of this 
 
 - **Node.js 20+ is required** (MJML v5 dropped Node 16/18).
 - **No more auto-migration of legacy MJML 3.x syntax.** The `mjml-migrate` tool was removed in v5. If you still have v3-era templates, run `npx mjml-migrate@4 your-template.mjml` once against MJML 4 before upgrading.
-- **`beautify` is effectively a no-op.** Upstream replaced `js-beautify` with `htmlnano`/`cssnano`, so the option is accepted but does not beautify output. The gem default is now `false`.
 - **Output is more aggressively minified by default.** HTML/CSS minification now runs through `htmlnano`/`cssnano`.
 - **`<mj-body class="…">` now lands on the `<body>` tag** instead of the child div — check any CSS/selector code that targets it.
 

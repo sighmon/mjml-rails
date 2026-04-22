@@ -39,7 +39,7 @@ describe Mjml::Parser do
 
     describe 'can read beautify, minify, fonts and validation_level configs' do
       it 'uses defaults if no config is set' do
-        expect(Mjml.beautify).must_equal(false)
+        expect(Mjml.beautify).must_equal(true)
         expect(Mjml.minify).must_equal(false)
         expect(Mjml.validation_level).must_equal('strict')
         assert_nil(Mjml.fonts)
@@ -59,7 +59,7 @@ describe Mjml::Parser do
         expect(Mjml.fonts).must_equal({ Mononoki: 'https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/mononoki.min.css' })
 
         Mjml.setup do |config|
-          config.beautify = false
+          config.beautify = true
           config.minify = false
           config.validation_level = 'strict'
           config.fonts = nil
