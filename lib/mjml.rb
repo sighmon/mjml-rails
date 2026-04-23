@@ -26,7 +26,7 @@ module Mjml
 
   self.template_language = :erb
   self.raise_render_exception = true
-  self.mjml_binary_version_supported = '4.'
+  self.mjml_binary_version_supported = '5.'
   self.mjml_binary_error_string = "Couldn't find the MJML #{Mjml.mjml_binary_version_supported} binary.." \
                                   ' have you run $ npm install mjml?'
   self.beautify = true

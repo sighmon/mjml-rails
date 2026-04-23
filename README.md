@@ -4,6 +4,8 @@
 
 **MJML-Rails** allows you to render HTML emails from an [MJML](https://mjml.io) template.
 
+**Note**: mjml-rails 5.x targets MJML 5.x, which requires Node.js 20+. If you need MJML 4.x, pin `gem 'mjml-rails', '~> 4.16'`. See [Upgrading to MJML v5](#upgrading-to-mjml-v5) for details.
+
 **Note**: As of MJML 4.3.0 you can no longer use `<mj-text>` directly inside an `<mj-body>`, wrap it in `<mj-section><mj-column>`.
 
 An example template might look like:
@@ -94,7 +96,7 @@ bun add mjml
 
 MJML-Rails falls back to a global installation of MJML but it is strongly recommended to add MJML directly to your project.
 
-You'll need at least Node.js version 6 for MJML to function properly.
+You'll need at least Node.js version 20 for MJML v5 to function properly.
 
 ### Using MRML with included binaries
 
@@ -142,7 +144,11 @@ MJML-Rails has the following settings with defaults:
 
 - `minify: false`
 
+   HTML minification. In MJML v5 this is handled by `htmlnano`.
+
 - `beautify: true`
+
+   Basically, the opposite of HTML minification; it formats HTML syntax and ensures proper indentation, line widths, etc. In MJML v5 this is handled by `prettier`.
 
 - `validation_level: "strict"`
 
@@ -156,7 +162,7 @@ MJML-Rails has the following settings with defaults:
 
    This can be used to specify the path to a custom MJML binary if it is not detected automatically (shouldn't be needed).
 
-- `mjml_binary_version_supported: "4."`
+- `mjml_binary_version_supported: "5."`
 
    MJML-Rails checks the version of the MJML binary and fails if it does not start with this version, e.g. if an old version is installed by accident.
 
@@ -202,16 +208,30 @@ Mjml.setup do |config|
 end
 ```
 
-### MJML v3.x & v4.x support
+### Upgrading to MJML v5
 
-Version 4.x of this gem brings support for MJML 4.x
+mjml-rails 5.x targets MJML 5.x. Key upstream changes that affect users of this gem:
 
-Version 2.3.x and 2.4.x of this gem brings support for MJML 3.x
+- **Node.js 20+ is required** (MJML v5 dropped Node 16/18).
+- **No more auto-migration of legacy MJML 3.x syntax.** The `mjml-migrate` tool was removed in v5. If you still have v3-era templates, run `npx mjml-migrate@4 your-template.mjml` once against MJML 4 before upgrading.
+- **Output is more aggressively minified by default.** HTML/CSS minification now runs through `htmlnano`/`cssnano`.
+- **`<mj-body class="…">` now lands on the `<body>` tag** instead of the child div — check any CSS/selector code that targets it.
 
-If you'd rather still stick with MJML 2.x then lock the mjml-rails gem:
+See the [MJML v5.0.0 release notes](https://github.com/mjmlio/mjml/releases/tag/v5.0.0) for the complete list of upstream changes.
+
+### MJML version support
+
+| mjml-rails  | MJML     |
+|-------------|----------|
+| 5.x         | 5.x      |
+| 4.x         | 4.x      |
+| 2.3.x–2.4.x | 3.x      |
+| 2.2.0       | 2.x      |
+
+To stay on MJML 4.x:
 
 ```ruby
-gem 'mjml-rails', '2.2.0'
+gem 'mjml-rails', '~> 4.16'
 ```
 
 For MJML 3.x lock the mjml-rails gem:
@@ -220,10 +240,16 @@ For MJML 3.x lock the mjml-rails gem:
 gem 'mjml-rails', '2.4.3'
 ```
 
-And then to install MJML 3.x
+And then to install MJML 3.x:
 
 ```console
 npm install -g mjml@3.3.5
+```
+
+To stay on MJML 2.x:
+
+```ruby
+gem 'mjml-rails', '2.2.0'
 ```
 
 ### How to guides
@@ -346,7 +372,7 @@ Next you'll need to setup a `package.json` file in the root, something like this
     "test": "test"
   },
   "dependencies": {
-    "mjml": "^4.0.0"
+    "mjml": "^5.0.0"
   },
   "repository": {
     "type": "git",

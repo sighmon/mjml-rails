@@ -1,3 +1,11 @@
+## 5.0.0
+
+* Target MJML 5.x. Users on MJML 4.x should pin `gem 'mjml-rails', '~> 4.16'`.
+* Default `mjml_binary_version_supported` is now `"5."`.
+* Requires Node.js 20+ (MJML v5 requirement).
+* CI now pins `mjml@^5` for npm, yarn, and bun.
+* See the [MJML v5.0.0 release notes](https://github.com/mjmlio/mjml/releases/tag/v5.0.0) for template-level changes (stricter `ignoreIncludes` default, new `includePath` option, `<mj-body class>` now applies to `<body>`, removal of `mjml-migrate`).
+
 ## 4.16.0
 
 * aki77 fixed template caching when using ViewComponent templates.
@@ -33,7 +41,7 @@
 ## 4.11.0
 
 * Claire Zuliani added config settings for MJML fonts.
-  
+
 ## 4.10.1
 
 * Fixed the binary check when using MRML to avoid warnings.

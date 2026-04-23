@@ -130,9 +130,8 @@ describe Mjml do
 
     it 'can be set to a custom value with mjml_binary if version is correct' do
       Mjml.mjml_binary = 'some custom value'
-      Mjml.stub :check_version, true do
-        expect(Mjml.valid_mjml_binary).must_equal 'some custom value'
-      end
+      Mjml.stubs(:check_version).returns(true)
+      expect(Mjml.valid_mjml_binary).must_equal 'some custom value'
     end
 
     it 'raises an error if mjml_binary is invalid' do

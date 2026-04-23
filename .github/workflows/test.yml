@@ -59,13 +59,13 @@ jobs:
           fi
       - name: Install mjml with npm
         if: ${{ matrix.package_manager == 'npm' }}
-        run: npm add mjml
+        run: npm add mjml@^5
       - name: Install mjml with yarn
         if: ${{ matrix.package_manager == 'yarn' }}
-        run: yarn add mjml
+        run: yarn add mjml@^5
       - name: Install mjml with bun
         if: ${{ matrix.package_manager == 'bun' }}
-        run: bun add mjml
+        run: bun add mjml@^5
       - name: Run tests
         env:
           RAILS_VERSION: ${{ matrix.rails_version }}
